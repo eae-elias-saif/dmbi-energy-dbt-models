@@ -1,0 +1,72 @@
+version: 2
+
+sources:
+  - name: eae
+    description: "Raw EAE source tables loaded in the MySQL database."
+    schema:   eae_class   # MySQL: schema == database, only one needed
+    tables:
+      - name: inv_invoice_ft
+        identifier: invoices_eae_ft
+        description: "Invoice fact table with one row per invoice."
+        columns:
+          - name: invoice_id
+            description: "Unique invoice identifier."
+          - name: document_type_id
+            description: "FK to inv_doc_type_dim. 1=Normal, 2=Cancellation."
+          - name: invoice_date
+            description: "Date the invoice was issued."
+          - name: total_import_euros
+            description: "Total invoice amount in euros."
+          - name: contract_id
+            description: "FK to con_contract_dim."
+          - name: energy_active_kwh
+            description: "Active energy consumed (kWh)."
+          - name: client_id
+            description: "Client identifier."
+          - name: invoice_start_date
+            description: "Start of the billing period."
+          - name: invoice_end_date
+            description: "End of the billing period."
+
+      - name: con_contract_dim
+        identifier: contract_dim
+        description: "Contract dimension with supply-point and tariff info."
+        columns:
+          - name: contract_id
+            description: "Unique contract identifier."
+          - name: supply_point_code
+            description: "Supply point reference code."
+          - name: is_sale_flag
+            description: "1 if the contract is a sale."
+          - name: tariff_code
+            description: "Electricity tariff code (e.g. 20TD)."
+          - name: power_kw
+            description: "Contracted power in kilowatts."
+          - name: status_id
+            description: "Contract status."
+          - name: client_type_id
+            description: "FK to con_client_type_dim."
+          - name: last_contract_flag
+            description: "1 if this is the latest contract for the supply point."
+          - name: zipcode
+            description: "5-digit postal code (stored as integer, leading zero may be missing)."
+
+      - name: con_client_type_dim
+        identifier: client_type_dim
+        description: "Client type dimension."
+        columns:
+          - name: client_type_id
+            description: "Unique client type identifier."
+          - name: client_type_description
+            description: "Full description (e.g. Individual, Company)."
+          - name: client_type_abv
+            description: "Abbreviation (e.g. I, C, SE, CO)."
+
+      - name: inv_doc_type_dim
+        identifier: doc_type_dim 
+        description: "Invoice document type dimension."
+        columns:
+          - name: document_type_id
+            description: "Unique document type identifier."
+          - name: document_type_description
+            description: "Description (e.g. Normal, Cancellation Invoice)."

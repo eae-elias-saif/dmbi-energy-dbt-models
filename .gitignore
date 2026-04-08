@@ -1,0 +1,6 @@
+.venv/
+assignment_4_dbt_models/profiles.yml
+assignment_4_dbt_models/target/
+logs/
+assignment_4_dbt_models/logs/
+assignment_4_dbt_models/dbt_packages/
